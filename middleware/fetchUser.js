@@ -7,14 +7,20 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // To verify that the user has admin rights
 const fetchAdmin = async (req, res, next) => {
     const token = req.header('token');
-    if (!token) {
+    const bearer = req.header('Authorization').split(' ')[1];
+    if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
             message: 'No token, authorization denied'
         });
     }
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        let decoded;
+        if(bearer) {
+            decoded = jwt.verify(bearer, JWT_SECRET);
+        } else {
+            decoded = jwt.verify(token, JWT_SECRET);
+        }
         req.user = decoded;
         if (req.user.isAdmin) {
             next();
@@ -37,14 +43,21 @@ const fetchAdmin = async (req, res, next) => {
 // To verify that the user has teacher rights
 const fetchTeacher = async (req, res, next) => {
     const token = req.header('token');
-    if (!token) {
+    const bearer = req.header('Authorization');
+    bearer = bearer.split(' ')[1];
+    if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
             message: 'No token, authorization denied'
         });
     }
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        let decoded;
+        if(bearer) {
+            decoded = jwt.verify(bearer, JWT_SECRET);
+        } else {
+            decoded = jwt.verify(token, JWT_SECRET);
+        }
         req.user = decoded;
         if (req.user.isTeacher) {
             next();
@@ -67,14 +80,21 @@ const fetchTeacher = async (req, res, next) => {
 // To verify that the user has student rights
 const fetchStudent = async (req, res, next) => {
     const token = req.header('token');
-    if (!token) {
+    const bearer = req.header('Authorization');
+    bearer = bearer.split(' ')[1];
+    if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
             message: 'No token, authorization denied'
         });
     }
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        let decoded;
+        if(bearer) {
+            decoded = jwt.verify(bearer, JWT_SECRET);
+        } else {
+            decoded = jwt.verify(token, JWT_SECRET);
+        }
         req.user = decoded;
         if (req.user.isStudent) {
             next();
