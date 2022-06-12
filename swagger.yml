@@ -56,7 +56,7 @@ paths:
       summary: Fetch all the students
       responses:
         '200':
-          description: Teachers Fetched Successfully
+          description: Students Fetched Successfully
         '500':
           description: Internal Server Error
   /fetchClasses:
@@ -66,7 +66,7 @@ paths:
       summary: Fetch all the classes
       responses:
         '200':
-          description: Teachers Fetched Successfully
+          description: Classes Fetched Successfully
         '500':
           description: Internal Server Error
   /admin/teacher:
@@ -102,7 +102,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Teacher Created Successfully
+          description: Teacher fetched Successfully
         '401':
           description: Not Authorized to perform this action
         '404':
@@ -142,7 +142,7 @@ paths:
         $ref: '#/components/requestBodies/Class'
       responses:
         '200':
-          description: Teacher Created Successfully
+          description: Class Created Successfully
         '400':
           description: Invalid input
         '401':
@@ -164,7 +164,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Class Created Successfully
+          description: Class fetched Successfully
         '401':
           description: Not Authorized to perform this action
         '404':
@@ -210,7 +210,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Class Updated Successfully
+          description: Class deleted Successfully
         '400':
           description: Invalid input
         '401':
@@ -410,7 +410,7 @@ paths:
         - Bearer: []
       responses:
         '200':
-          description: Teachers Fetched Successfully
+          description: Scorecard Fetched Successfully
         '401':
           description: Not Authorized to access this resource
         '500':
