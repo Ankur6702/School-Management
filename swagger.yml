@@ -75,7 +75,7 @@ paths:
         - Admin
       summary: Create Teacher
       security:
-        - Bearer: []
+        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/TeacherSignup'
       responses:
@@ -93,7 +93,7 @@ paths:
         - Admin
       summary: Fetch Teacher
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: teacherId
@@ -115,7 +115,7 @@ paths:
         - Admin
       summary: Delete Teacher
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: teacherId
@@ -137,7 +137,7 @@ paths:
         - Admin
       summary: Create Class
       security:
-        - Bearer: []
+        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/Class'
       responses:
@@ -155,7 +155,7 @@ paths:
         - Admin
       summary: Fetch Class
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: classId
@@ -177,7 +177,7 @@ paths:
         - Admin
       summary: Update Class
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: classId
@@ -201,7 +201,7 @@ paths:
         - Admin
       summary: Delete Class
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: classId
@@ -225,7 +225,7 @@ paths:
         - Admin
       summary: Assign Teacher to Class
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: teacherId
@@ -254,7 +254,7 @@ paths:
         - Admin
       summary: Fetch Teachers assigned to a particular class
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: classId
@@ -276,7 +276,7 @@ paths:
         - Admin
       summary: Create Student
       security:
-        - Bearer: []
+        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/Student'
       responses:
@@ -294,7 +294,7 @@ paths:
         - Admin
       summary: Fetch Student
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: studentId
@@ -316,7 +316,7 @@ paths:
         - Admin
       summary: Delete Student
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: studentId
@@ -338,7 +338,7 @@ paths:
         - Admin
       summary: Assign a class to a student
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: classId
@@ -367,7 +367,7 @@ paths:
         - Teacher
       summary: Fetch all the students in sorted order
       security:
-        - Bearer: []
+        - bearerAuth: []
       responses:
         '200':
           description: Students Fetched Successfully
@@ -381,7 +381,7 @@ paths:
         - Teacher
       summary: Create Scorecard for Student
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: studentId
@@ -407,7 +407,7 @@ paths:
         - Teacher
       summary: Fetch all the scorecards
       security:
-        - Bearer: []
+        - bearerAuth: []
       responses:
         '200':
           description: Scorecard Fetched Successfully
@@ -421,7 +421,7 @@ paths:
         - Teacher
       summary: Update Scorecard
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: scorecardId
@@ -447,7 +447,7 @@ paths:
         - Teacher
       summary: Delete Scorecard
       security:
-        - Bearer: []
+        - bearerAuth: []
       parameters:
         - in: path
           name: scorecardId
@@ -469,7 +469,7 @@ paths:
         - Teacher
       summary: Fetch all the students according to their rankings in Exams.
       security:
-        - Bearer: []
+        - bearerAuth: []
       responses:
         '200':
           description: Students Fetched Successfully
@@ -483,7 +483,7 @@ paths:
         - Student
       summary: Fetch all the scorecards of the student
       security:
-        - Bearer: []
+        - bearerAuth: []
       responses:
         '200':
           description: Scorecards Fetched Successfully
@@ -647,6 +647,7 @@ components:
           format: date-time
   securitySchemes:
     bearerAuth:
+      name: Authorization
       type: http
       scheme: bearer
       in: header
@@ -688,4 +689,3 @@ components:
           schema:
             $ref: '#/components/schemas/ScorecardInput'
         description: Scorecard Creation
-        
