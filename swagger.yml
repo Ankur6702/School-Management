@@ -1,0 +1,691 @@
+openapi: 3.0.0
+info:
+  title: School Management System
+  description: This is a School Management System which provides automation of various academic and administrative operations.
+  version: 1.0.0
+  contact:
+    email: ankuragarwa246@gmail.com
+servers:
+  - url: http://localhost:9999/api
+    description: Development server
+  - url: https://sch-management-server.herokuapp.com/api
+    description: Production Server
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Signup
+      summary: Admin Signup
+      requestBody:
+        $ref: '#/components/requestBodies/AdminSignup'
+      responses:
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+        '200':
+          description: Admin Created Successfully
+  /auth/login:
+    post:
+      tags:
+        - Login
+      summary: User Login
+      requestBody:
+        $ref: '#/components/requestBodies/Login'
+      responses:
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+        '200':
+          description: User Logged In Successfully
+  /fetchTeachers:
+    get:
+      tags:
+        - Common
+      summary: Fetch all the teachers
+      responses:
+        '200':
+          description: Teachers Fetched Successfully
+        '500':
+          description: Internal Server Error
+  /fetchStudents:
+    get:
+      tags:
+        - Common
+      summary: Fetch all the students
+      responses:
+        '200':
+          description: Teachers Fetched Successfully
+        '500':
+          description: Internal Server Error
+  /fetchClasses:
+    get:
+      tags:
+        - Common
+      summary: Fetch all the classes
+      responses:
+        '200':
+          description: Teachers Fetched Successfully
+        '500':
+          description: Internal Server Error
+  /admin/teacher:
+    post:
+      tags:
+        - Admin
+      summary: Create Teacher
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/TeacherSignup'
+      responses:
+        '200':
+          description: Teacher Created Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /admin/fetchTeacher/{teacherId}:
+    get:
+      tags:
+        - Admin
+      summary: Fetch Teacher
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: teacherId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher Created Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Teacher Not Found
+        '500':
+          description: Internal Server Error
+  /admin/teacher/{teacherId}:
+    delete:
+      tags:
+        - Admin
+      summary: Delete Teacher
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: teacherId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher Deleted Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Teacher Not Found
+        '500':
+          description: Internal Server Error
+  /admin/class:
+    post:
+      tags:
+        - Admin
+      summary: Create Class
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Class'
+      responses:
+        '200':
+          description: Teacher Created Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /admin/fetchClass/{classId}:
+    get:
+      tags:
+        - Admin
+      summary: Fetch Class
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Class Created Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Class Not Found
+        '500':
+          description: Internal Server Error
+  /admin/updateClass/{classId}:
+    put:
+      tags:
+        - Admin
+      summary: Update Class
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/Class'
+      responses:
+        '200':
+          description: Class Updated Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Class Not Found
+        '500':
+          description: Internal Server Error
+  /admin/class/{classId}:
+    delete:
+      tags:
+        - Admin
+      summary: Delete Class
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Class Updated Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Class Not Found
+        '500':
+          description: Internal Server Error
+  /admin/teacher/{teacherId}/class/{classId}:
+    post:
+      tags:
+        - Admin
+      summary: Assign Teacher to Class
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: teacherId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher assigned to a class Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Class/Teacher Not Found
+        '500':
+          description: Internal Server Error
+  /admin/class/{classId}/teachers:
+    get:
+      tags:
+        - Admin
+      summary: Fetch Teachers assigned to a particular class
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Class Not Found
+        '500':
+          description: Internal Server Error
+  /admin/student:
+    post:
+      tags:
+        - Admin
+      summary: Create Student
+      security:
+        - Bearer: []
+      requestBody:
+        $ref: '#/components/requestBodies/Student'
+      responses:
+        '200':
+          description: Student Created Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /admin/fetchStudent/{studentId}:
+    get:
+      tags:
+        - Admin
+      summary: Fetch Student
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: studentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Student Not Found
+        '500':
+          description: Internal Server Error
+  /admin/student/{studentId}:
+    delete:
+      tags:
+        - Admin
+      summary: Delete Student
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: studentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student deleted Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Student Not Found
+        '500':
+          description: Internal Server Error
+  /admin/class/{classId}/student/{studentId}:
+    post:
+      tags:
+        - Admin
+      summary: Assign a class to a student
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: classId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: studentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Class assigned to a student Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Class/Student Not Found
+        '500':
+          description: Internal Server Error
+  /teacher/students:
+    get:
+      tags:
+        - Teacher
+      summary: Fetch all the students in sorted order
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Students Fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /teacher/scorecard/students/{studentId}:
+    post:
+      tags:
+        - Teacher
+      summary: Create Scorecard for Student
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: studentId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/Scorecard'
+      responses:
+        '200':
+          description: Scorecard Created Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Student Not Found
+        '500':
+          description: Internal Server Error
+  /teacher/fetchScorecards:
+    get:
+      tags:
+        - Teacher
+      summary: Fetch all the scorecards
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Teachers Fetched Successfully
+        '401':
+          description: Not Authorized to access this resource
+        '500':
+          description: Internal Server Error
+  /teacher/scorecard/{scorecardId}:
+    put:
+      tags:
+        - Teacher
+      summary: Update Scorecard
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: scorecardId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/Scorecard'
+      responses:
+        '200':
+          description: Scorecard Updated Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Student Not Found
+        '500':
+          description: Internal Server Error
+  /teacher/scorecard/{scorecardId}:
+    delete:
+      tags:
+        - Teacher
+      summary: Delete Scorecard
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: scorecardId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scorecard Deleted Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Scorecard Not Found
+        '500':
+          description: Internal Server Error
+  /teacher/rankings:
+    get:
+      tags:
+        - Teacher
+      summary: Fetch all the students according to their rankings in Exams.
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Students Fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /student/scorecards:
+    get:
+      tags:
+        - Student
+      summary: Fetch all the scorecards of the student
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Scorecards Fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Admin:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        isAdmin:
+          type: boolean
+          default: true
+        date:
+          type: string
+          format: date-time
+    Class:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdBy:
+          type: string
+        students:
+          type: array
+          items:
+            id:
+              type: string
+        teachers:
+          type: array
+          items:
+            id:
+              type: string
+        date:
+          type: string
+          format: date-time
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: string
+        registeredBy:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        isAdmin:
+          type: boolean
+          default: false
+        isTeacher:
+          type: boolean
+          default: true
+        classes:
+          type: array
+          items:
+            id:
+              type: string
+        date:
+          type: string
+          format: date-time
+    Student:
+      type: object
+      properties:
+        id:
+          type: string
+        registeredBy:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        isAdmin:
+          type: boolean
+          default: false
+        isStudent:
+          type: boolean
+          default: true
+        scorecards:
+          type: array
+          items:
+            id:
+              type: string
+        totalScore:
+          type: number
+          default: 0
+        class:
+          type: string
+        date:
+          type: string
+          format: date-time
+    Scorecard:
+      type: object
+      properties:
+        id:
+          type: string
+        createdBy:
+          type: string
+        student:
+          type: string
+        subject:
+          type: string
+        score:
+          type: number
+        comments:
+          type: string
+        examDate:
+          type: string
+          format: date-time
+        date:
+          type: string
+          format: date-time
+    SignupInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    LoginInput:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    ClassInput:
+      type: object
+      properties:
+        name:
+          type: string
+    ScorecardInput:
+      type: object
+      properties:
+        subject:
+          type: string
+        score:
+          type: number
+        comments:
+          type: string
+        examDate:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      in: header
+      bearerFormat: JWT
+  requestBodies:
+    AdminSignup:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SignupInput'
+        description: Admin Signup
+    Login:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginInput'
+        description: Login
+    TeacherSignup:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SignupInput'
+        description: Teacher Signup
+    StudentSignup:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SignupInput'
+        description: Student Signup
+    Class:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClassInput'
+        description: Class Creation
+    Scorecard:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScorecardInput'
+        description: Scorecard Creation
+        
