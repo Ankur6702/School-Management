@@ -37,7 +37,7 @@ Clone the repository
 Enter in cloned the directory
 
 ```bash
-  cd 
+  cd School-Management
 ```
 
 Install Node modules in the cloned folder
