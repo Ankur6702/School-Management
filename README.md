@@ -31,7 +31,7 @@ Clone the repository
 
 
 ```bash
-  git clone 
+  git clone https://github.com/Ankur6702/School-Management.git
 ```
 
 Enter in cloned the directory
