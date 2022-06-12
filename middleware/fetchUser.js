@@ -43,8 +43,7 @@ const fetchAdmin = async (req, res, next) => {
 // To verify that the user has teacher rights
 const fetchTeacher = async (req, res, next) => {
     const token = req.header('token');
-    const bearer = req.header('Authorization');
-    bearer = bearer.split(' ')[1];
+    const bearer = req.header('Authorization').split(' ')[1];
     if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
@@ -80,8 +79,7 @@ const fetchTeacher = async (req, res, next) => {
 // To verify that the user has student rights
 const fetchStudent = async (req, res, next) => {
     const token = req.header('token');
-    const bearer = req.header('Authorization');
-    bearer = bearer.split(' ')[1];
+    const bearer = req.header('Authorization').split(' ')[1];
     if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
