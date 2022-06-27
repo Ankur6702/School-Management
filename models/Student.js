@@ -19,6 +19,18 @@ const StudentSchema = new Schema({
         type: String,
         required: true
     },
+    phone: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    dob: {
+        type: Date,
+    },
+    gender: {
+        type: String,
+    },
     scorecards: [{
         type: Schema.Types.ObjectId,
         ref: 'scorecard'
@@ -26,10 +38,6 @@ const StudentSchema = new Schema({
     totalScore: {
         type: Number,
         default: 0
-    },
-    date: {
-        type: Date,
-        default: Date.now
     },
     isStudent: {
         type: Boolean,
@@ -45,7 +53,11 @@ const StudentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'class',
         default: null
-    }
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 module.exports = mongoose.model('student', StudentSchema);

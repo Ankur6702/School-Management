@@ -20,14 +20,19 @@ function validatePassword(data) {
 
 
 // To update an existing class
-router.put('/updateClass/:id', fetchAdmin, async (req, res) => {
+router.put('/updateClass/:id', fetchAdmin,[
+    body('name').not().isEmpty().withMessage('Name is required'),
+    body('capacity').not().isEmpty().withMessage('Capacity is required'),
+] ,async (req, res) => {
     try {
         const name = req.body.name;
+        const capacity = req.body.capacity;
         const classToUpdate = await Class.findById(req.params.id);
         if (!classToUpdate) {
             return res.status(404).json({ status: 'error', message: 'Class not found' });
         }
         classToUpdate.name = name;
+        classToUpdate.capacity = capacity;
         await classToUpdate.save();
         res.status(200).json({ status: 'success', message: 'Class updated successfully' });
     } catch (error) {
@@ -136,7 +141,8 @@ router.delete('/teacher/:id', fetchAdmin, async (req, res) => {
 
 // To add a class
 router.post('/class', fetchAdmin, [
-    body('name', 'Name is required').not().isEmpty()
+    body('name', 'Name is required').not().isEmpty(),
+    body('capacity', 'Class capacity is required').not().isEmpty(),
 ], async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -145,6 +151,7 @@ router.post('/class', fetchAdmin, [
     try {
         const cls = await Class.create({
             name: req.body.name,
+            capacity: req.body.capacity,
             registeredBy: req.user._id
         });
         res.status(200).json({ status: 'success', message: 'Class created', id: cls._id });
@@ -268,6 +275,9 @@ router.post('/class/:id/student/:studentId', fetchAdmin, async (req, res) => {
         }
         if (student.class !== null) {
             return res.status(400).json({ status: 'error', message: 'Student already assigned to another class' });
+        }
+        if(cls.capacity === cls.students.length) {
+            return res.status(400).json({ status: 'error', message: 'Class is full' });
         }
         cls.students.push(student);
         student.class = cls;

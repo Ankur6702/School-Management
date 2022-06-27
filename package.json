@@ -1,7 +1,7 @@
 {
-  "name": "schapi",
+  "name": "school-management",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a School Management System which provides automation of various academic and administrative operations.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -19,5 +19,14 @@
     "nodemon": "^2.0.16",
     "swagger-ui-express": "^4.4.0",
     "yamljs": "^0.3.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ankur6702/School-Management.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ankur6702/School-Management/issues"
+  },
+  "homepage": "https://github.com/Ankur6702/School-Management#readme"
 }

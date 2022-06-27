@@ -7,7 +7,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // To verify that the user has admin rights
 const fetchAdmin = async (req, res, next) => {
     const token = req.header('token');
-    const bearer = req.header('Authorization').split(' ')[1];
+    let bearer = req.header('Authorization');
+    if(bearer !== undefined) {
+        bearer = bearer.split(' ')[1];
+    }
     if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
@@ -43,7 +46,10 @@ const fetchAdmin = async (req, res, next) => {
 // To verify that the user has teacher rights
 const fetchTeacher = async (req, res, next) => {
     const token = req.header('token');
-    const bearer = req.header('Authorization').split(' ')[1];
+    let bearer = req.header('Authorization');
+    if(bearer !== undefined) {
+        bearer = bearer.split(' ')[1];
+    }
     if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',
@@ -79,7 +85,10 @@ const fetchTeacher = async (req, res, next) => {
 // To verify that the user has student rights
 const fetchStudent = async (req, res, next) => {
     const token = req.header('token');
-    const bearer = req.header('Authorization').split(' ')[1];
+    let bearer = req.header('Authorization');
+    if(bearer !== undefined) {
+        bearer = bearer.split(' ')[1];
+    }
     if (!token && !bearer) {
         return res.status(401).json({
             status: 'error',

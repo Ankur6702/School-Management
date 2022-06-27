@@ -19,6 +19,24 @@ const TeacherSchema = new Schema({
         type: String,
         required: true
     },
+    qualification: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    dob: {
+        type: Date,
+    },
+    gender: {
+        type: String,
+    },
+    subjectToTeach: {
+        type: String,
+    },
     classes: [{
         type: Schema.Types.ObjectId,
         ref: 'class'

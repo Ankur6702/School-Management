@@ -13,6 +13,13 @@ const ClassSchema = new Schema({
         minlength: 2,
         maxlength: 5
     },
+    capacity: {
+        type: Number,
+        required: true,
+        default: 20,
+        min: 20,
+        max: 100
+    },
     students: [{
         type: Schema.Types.ObjectId,
         ref: 'student'

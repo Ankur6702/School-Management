@@ -278,7 +278,7 @@ paths:
       security:
         - bearerAuth: []
       requestBody:
-        $ref: '#/components/requestBodies/Student'
+        $ref: '#/components/requestBodies/StudentSignup'
       responses:
         '200':
           description: Student Created Successfully
@@ -359,6 +359,40 @@ paths:
           description: Not Authorized to perform this action
         '404':
           description: Class/Student Not Found
+        '500':
+          description: Internal Server Error
+  /teacher/fetchProfile:
+    get:
+      tags:
+        - Teacher
+      summary: Fetch Teacher Profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Teacher Profile fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Teacher Not Found
+        '500':
+          description: Internal Server Error
+  /teacher/updateProfile:
+    put:
+      tags:
+        - Teacher
+      summary: Update Teacher Profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/TeacherProfile'
+      responses:
+        '200':
+          description: Teacher Profile Updated Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
         '500':
           description: Internal Server Error
   /teacher/students:
@@ -477,6 +511,40 @@ paths:
           description: Not Authorized to perform this action
         '500':
           description: Internal Server Error
+  /student/fetchProfile:
+    get:
+      tags:
+        - Student
+      summary: Fetch Student Profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Student Profile fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Student Not Found
+        '500':
+          description: Internal Server Error
+  /student/updateProfile:
+    put:
+      tags:
+        - Student
+      summary: Update Student Profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/StudentProfile'
+      responses:
+        '200':
+          description: Student Profile Updated Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
   /student/scorecards:
     get:
       tags:
@@ -517,6 +585,9 @@ components:
           type: string
         name:
           type: string
+        capacity:
+          type: number
+          default: 20
         createdBy:
           type: string
         students:
@@ -545,6 +616,19 @@ components:
           type: string
         password:
           type: string
+        phone:
+          type: string
+        address:
+          type: string
+        dob:
+          type: string
+          format: date-time
+        gender:
+          type: string
+        qualification:
+          type: string
+        subjectToTeach:
+          type: string
         isAdmin:
           type: boolean
           default: false
@@ -571,6 +655,15 @@ components:
         email:
           type: string
         password:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        dob:
+          type: string
+          format: date-time
+        gender:
           type: string
         isAdmin:
           type: boolean
@@ -633,6 +726,8 @@ components:
       properties:
         name:
           type: string
+        capacity:
+          type: number
     ScorecardInput:
       type: object
       properties:
@@ -645,6 +740,38 @@ components:
         examDate:
           type: string
           format: date-time
+    StudentProfileInput:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        dob:
+          type: string
+          format: date-time
+        gender:
+          type: string
+    TeacherProfileInput:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        dob:
+          type: string
+          format: date-time
+        gender:
+          type: string
+        qualification:
+          type: string
+        subjectToTeach:
+          type: string
   securitySchemes:
     bearerAuth:
       name: Authorization
@@ -671,12 +798,24 @@ components:
           schema:
             $ref: '#/components/schemas/SignupInput'
         description: Teacher Signup
+    TeacherProfile:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TeacherProfileInput'
+        description: Teacher Profile
     StudentSignup:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/SignupInput'
         description: Student Signup
+    StudentProfile:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StudentProfileInput'
+        description: Student Profile
     Class:
       content:
         application/json:

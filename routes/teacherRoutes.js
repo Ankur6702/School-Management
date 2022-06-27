@@ -4,6 +4,7 @@ const Student = require('../models/Student');
 const Scorecard = require('../models/Scorecard');
 const { body, validationResult } = require('express-validator');
 const { fetchTeacher } = require('../middleware/fetchUser');
+const Teacher = require('../models/Teacher');
 
 
 // Fetch students sorted in ascending order by name
@@ -11,6 +12,38 @@ router.get('/students', fetchTeacher, async (req, res) => {
     try {
         const students = await Student.find({}).sort({ name: 1 });
         res.status(200).json({ status: 'success', students });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
+// To fetch teacher's profile
+router.get('/fetchProfile', fetchTeacher, async (req, res) => {
+    try {
+        const teacher = await Teacher.findById(req.user.id || req.user._id);
+        res.status(200).json({ status: 'success', teacher });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
+// To update teacher profile
+router.put('/updateProfile', fetchTeacher, [
+    body('name').not().isEmpty().withMessage('Name is required'),
+    body('phone').not().isEmpty().isMobilePhone('en-IN').withMessage('Phone number is invalid'),
+    body('address').not().isEmpty().withMessage('Address is required'),
+    body('dob').not().isEmpty().isDate().withMessage('Date of birth is invalid'),
+    body('gender').not().isEmpty().withMessage('Gender is required'),
+    body('subjectToTeach').not().isEmpty().withMessage('Subject is required'),
+    body('qualification').isEmpty().withMessage('Subject is required'),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ status: 'error', errors: errors.array() });
+    }
+    try {
+        const teacher = await Teacher.findByIdAndUpdate(req.user.id, req.body, { new: true });
+        res.status(200).json({ status: 'success', teacher });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
     }
