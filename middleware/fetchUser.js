@@ -120,4 +120,43 @@ const fetchStudent = async (req, res, next) => {
     }
 }
 
-module.exports = { fetchAdmin, fetchTeacher, fetchStudent };
+
+// To verify that the user has library rights
+const fetchLibrarian = async (req, res, next) => {
+    const token = req.header('token');
+    let bearer = req.header('Authorization');
+    if(bearer !== undefined) {
+        bearer = bearer.split(' ')[1];
+    }
+    if (!token && !bearer) {
+        return res.status(401).json({
+            status: 'error',
+            message: 'No token, authorization denied'
+        });
+    }
+    try {
+        let decoded;
+        if(bearer) {
+            decoded = jwt.verify(bearer, JWT_SECRET);
+        } else {
+            decoded = jwt.verify(token, JWT_SECRET);
+        }
+        req.user = decoded;
+        if (req.user.isLibrarian) {
+            next();
+        } else {
+            return res.status(401).json({
+                status: 'error',
+                message: 'You are not authorized to access this resource'
+            });
+        }
+    }
+    catch (error) {
+        res.status(401).json({
+            status: 'error',
+            message: 'Token is not valid'
+        });
+    }
+}
+
+module.exports = { fetchAdmin, fetchTeacher, fetchStudent, fetchLibrarian };

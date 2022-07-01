@@ -15,8 +15,8 @@ app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/teacher', require('./routes/teacherRoutes'));
 app.use('/api/student', require('./routes/studentRoutes'));
 // app.use('/api/parent', require('./routes/parentRoutes'));
-app.use('/api/librarian', require('./routes/libraryRoutes'));
-app.use('/api/accountant', require('./routes/accountRoutes'));
+app.use('/api/library', require('./routes/libraryRoutes'));
+app.use('/api/account', require('./routes/accountRoutes'));
 app.use('/api/', require('./routes/commonRoutes'));
 
 app.get('/', (req, res) => {

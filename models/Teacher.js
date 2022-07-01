@@ -51,6 +51,11 @@ const TeacherSchema = new Schema({
         default: true,
         required: false
     },
+    isLibrarian: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
     date: {
         type: Date,
         default: Date.now

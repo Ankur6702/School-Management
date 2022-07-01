@@ -69,6 +69,16 @@ paths:
           description: Classes Fetched Successfully
         '500':
           description: Internal Server Error
+  /fetchBooks:
+    get:
+      tags:
+        - Common
+      summary: Fetch all the books
+      responses:
+        '200':
+          description: Books Fetched Successfully
+        '500':
+          description: Internal Server Error
   /admin/teacher:
     post:
       tags:
@@ -559,6 +569,146 @@ paths:
           description: Not Authorized to perform this action
         '500':
           description: Internal Server Error
+  /library/addBook:
+    post:
+      tags:
+        - Library
+      summary: Add a book to the library
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/Book'
+      responses:
+        '201':
+          description: Book Added Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /library/updateBook/{bookId}:
+    put:
+      tags:
+        - Library
+      summary: Update a book in the library
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/Book'
+      responses:
+        '200':
+          description: Book Updated Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Book Not Found
+        '500':
+          description: Internal Server Error
+  /library/deleteBook/{bookId}:
+    delete:
+      tags:
+        - Library
+      summary: Delete a book from the library
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book Deleted Successfully
+        '400':
+          description: Book is issued to a student, cannot be deleted
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Book Not Found
+        '500':
+          description: Internal Server Error
+  /library/getLateStudents:
+    get:
+      tags:
+        - Library
+      summary: Fetch all the students who haven't returned the books in time
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Students Fetched Successfully
+        '401':
+          description: Not Authorized to perform this action
+        '500':
+          description: Internal Server Error
+  /library/issueBook/{bookId}/student/{studentId}:
+    post:
+      tags:
+        - Library
+      summary: Issue a book to a student
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: studentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book Issued Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Book Not Found
+        '500':
+          description: Internal Server Error
+  /library/returnBook/{bookId}/student/{studentId}:
+    post:
+      tags:
+        - Library
+      summary: Return a book to library
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: studentId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book Returned Successfully
+        '400':
+          description: Invalid input
+        '401':
+          description: Not Authorized to perform this action
+        '404':
+          description: Book Not Found
+        '500':
+          description: Internal Server Error
 components:
   schemas:
     Admin:
@@ -593,13 +743,17 @@ components:
         students:
           type: array
           items:
-            id:
-              type: string
+            type: object
+            properties:
+              studentId:
+                type: string
         teachers:
           type: array
           items:
-            id:
-              type: string
+            type: object
+            properties:
+              teacherId:
+                type: string
         date:
           type: string
           format: date-time
@@ -635,6 +789,9 @@ components:
         isTeacher:
           type: boolean
           default: true
+        isLibrarian:
+          type: boolean
+          default: false
         classes:
           type: array
           items:
@@ -665,6 +822,16 @@ components:
           format: date-time
         gender:
           type: string
+        issuedBooks:
+          type: array
+          items:
+            type: object
+            properties:
+              bookId:
+                type: string
+        libraryPenalty:
+          type: number
+          default: 0
         isAdmin:
           type: boolean
           default: false
@@ -674,13 +841,45 @@ components:
         scorecards:
           type: array
           items:
-            id:
-              type: string
+            type: object
+            properties:
+              scorecardId:
+                type: string
         totalScore:
           type: number
           default: 0
         class:
           type: string
+        date:
+          type: string
+          format: date-time
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        quantity:
+          type: number
+          default: 0
+        price:
+          type: number
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              issuedBy:
+                type: string
+              issueDate:
+                type: string
+                format: date-time
+              returnDate:
+                type: string
+                format: date-time
         date:
           type: string
           format: date-time
@@ -705,7 +904,7 @@ components:
         date:
           type: string
           format: date-time
-    SignupInput:
+    TeacherSignupInput:
       type: object
       properties:
         name:
@@ -714,6 +913,27 @@ components:
           type: string
         password:
           type: string
+        isAdmin:
+          type: boolean
+          default: false
+        isTeacher:
+          type: boolean
+          default: true
+        isLibrarian:
+          type: boolean
+          default: false
+    StudentSignupInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        isAdmin:
+          type: boolean
+          default: false
     LoginInput:
       type: object
       properties:
@@ -772,6 +992,17 @@ components:
           type: string
         subjectToTeach:
           type: string
+    BookInput:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        quantity:
+          type: number
+        price:
+          type: number
   securitySchemes:
     bearerAuth:
       name: Authorization
@@ -796,7 +1027,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SignupInput'
+            $ref: '#/components/schemas/TeacherSignupInput'
         description: Teacher Signup
     TeacherProfile:
       content:
@@ -808,7 +1039,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SignupInput'
+            $ref: '#/components/schemas/StudentSignupInput'
         description: Student Signup
     StudentProfile:
       content:
@@ -828,3 +1059,9 @@ components:
           schema:
             $ref: '#/components/schemas/ScorecardInput'
         description: Scorecard Creation
+    Book:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BookInput'
+        description: Book Creation

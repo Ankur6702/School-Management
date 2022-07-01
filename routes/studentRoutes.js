@@ -17,7 +17,7 @@ router.get('/scorecards', fetchStudent, async (req, res) => {
 
 // To fetch student's profile
 router.get('/fetchProfile', fetchStudent, async (req, res) => {
-    try {   
+    try {
         const student = await Student.findById(req.user.id || req.user._id);
         res.status(200).json({ status: 'success', student });
     } catch (error) {
@@ -52,5 +52,6 @@ router.put('/updateProfile', fetchStudent, [
         res.status(500).json({ status: 'error', message: error.message });
     }
 });
+
 
 module.exports = router;

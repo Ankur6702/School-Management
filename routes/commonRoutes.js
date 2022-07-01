@@ -3,6 +3,7 @@ const router = express.Router();
 const Teacher = require('../models/Teacher');
 const Class = require('../models/Class');
 const Student = require('../models/Student');
+const Book = require('../models/Book');
 
 // To fetch all teachers
 router.get('/fetchTeachers', async (req, res) => {
@@ -31,6 +32,17 @@ router.get('/fetchStudents', async (req, res) => {
     try {
         const students = await Student.find({});
         res.status(200).json({ status: 'success', students });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
+
+// To fetch all books
+router.get('/fetchBooks', async (req, res) => {
+    try {
+        const books = await Book.find({});
+        res.status(200).json({ status: 'success', books });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
     }

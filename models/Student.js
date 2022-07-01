@@ -35,6 +35,15 @@ const StudentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'scorecard'
     }],
+    issuedBooks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'books',
+        max: 3
+    }],
+    libraryPenalty: {
+        type: Number,
+        default: 0
+    },
     totalScore: {
         type: Number,
         default: 0

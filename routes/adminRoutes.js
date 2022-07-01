@@ -88,6 +88,8 @@ router.post('/teacher', fetchAdmin, [
     body('name', 'Name is required').not().isEmpty(),
     body('email').isEmail(),
     body('password', 'Password is required').not().isEmpty(),
+    // body('isLibrarian').isBoolean(),
+    // body('isAdmin').isBoolean(),
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -107,6 +109,9 @@ router.post('/teacher', fetchAdmin, [
             name: req.body.name,
             email: req.body.email,
             password: hashedPassword,
+            isLibrarian: (req.body.isLibrarian === 'true') ? true : false,
+            isTeacher: (req.body.isTeacher === 'true') ? true : false,
+            isAdmin: (req.body.isAdmin === 'true') ? true : false,
             registeredBy: req.user.id
         });
         res.status(200).json({ status: 'success', message: 'Teacher created', id: teacher._id });
@@ -185,6 +190,7 @@ router.post('/student', fetchAdmin, [
     body('name', 'Name is required').not().isEmpty(),
     body('email').isEmail(),
     body('password', 'Password is required').not().isEmpty(),
+    body('isAdmin').isBoolean(),
 ], async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -204,6 +210,7 @@ router.post('/student', fetchAdmin, [
             name: req.body.name,
             email: req.body.email,
             password: hashedPassword,
+            isAdmin: (req.body.isAdmin === 'true') ? true : false,
             registeredBy: req.user.id
         });
         res.status(200).json({ status: 'success', message: 'Student created', id: student._id });

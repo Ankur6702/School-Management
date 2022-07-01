@@ -82,7 +82,7 @@ router.post('/login', [
         if (teacher !== null) {
             const isMatch2 = await bcrypt.compare(req.body.password, teacher.password);
             if (isMatch2) {
-                const token = jwt.sign({ id: teacher._id, isAdmin: teacher.isAdmin, isTeacher: true }, JWT_SECRET);
+                const token = jwt.sign({ id: teacher._id, isAdmin: teacher.isAdmin, isTeacher: true, isLibrarian: teacher.isLibrarian }, JWT_SECRET);
                 res.status(200).json({ status: 'success', message: 'Teacher logged in', token });
             } else {
                 return res.status(400).json({ status: 'error', message: 'Incorrect password' });
