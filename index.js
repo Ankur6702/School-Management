@@ -1,14 +1,19 @@
-const connectDB = require("./db");
+// NPM Packages
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./swagger.yml');
+
+// Local functions
+const connectDB = require("./db");
+const logger = require('./logger');
 
 connectDB();
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 9999;
+const swaggerDocument = YAML.load('./swagger.yml');
 
+// Routes
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', require('./routes/adminRoutes'));
@@ -23,5 +28,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}`);
+    logger.info(`🚀 Listening at http://localhost:${port}`);
 });

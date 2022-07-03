@@ -10,6 +10,8 @@ This is a School Management System which provides automation of various academic
 - Admins can manage teachers, students and classes.
 - Teachers manage scorecard for students.
 - Rankings for students based on their percentage.
+- Library routes to manage all books along with penaltys for late returns.
+
 ## Tech Stacks
 
 
@@ -46,8 +48,14 @@ Install Node modules in the cloned folder
   npm install
 ```
 
-Start the server
+Start the server in production mode with
 
 ```bash
-  nodemon index.js
+  npm start
+```
+
+Start the server in development mode with
+
+```bash
+  npm run dev
 ```

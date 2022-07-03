@@ -14,7 +14,7 @@ paths:
   /auth/signup:
     post:
       tags:
-        - Signup
+        - Authentication
       summary: Admin Signup
       requestBody:
         $ref: '#/components/requestBodies/AdminSignup'
@@ -28,7 +28,7 @@ paths:
   /auth/login:
     post:
       tags:
-        - Login
+        - Authentication
       summary: User Login
       requestBody:
         $ref: '#/components/requestBodies/Login'
