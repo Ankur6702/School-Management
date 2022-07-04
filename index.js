@@ -28,5 +28,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    logger.info(`🚀 Listening at http://localhost:${port}`);
+    logger.info(`🚀 Server running on port ${port}`);
 });

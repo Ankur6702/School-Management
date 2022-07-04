@@ -39,6 +39,54 @@ paths:
           description: Internal Server Error
         '200':
           description: User Logged In Successfully
+  /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Admin Forgot Password
+      requestBody:
+        $ref: '#/components/requestBodies/ForgotPassword'
+      responses:
+        '200':
+          description: Password Reset Link Sent Successfully
+        '400':
+          description: Invalid input
+        '404':
+          description: Admin Not Found
+        '500':
+          description: Internal Server Error
+  /auth/reset-password/{token}:
+    post:
+      tags:
+        - Authentication
+      summary: Admin Password Reset
+      requestBody:
+        $ref: '#/components/requestBodies/ResetPassword'
+      responses:
+        '200':
+          description: Password Reset Successfully
+        '400':
+          description: Invalid input
+        '404':
+          description: Admin Not Found
+        '500':
+          description: Internal Server Error
+  /auth/reset-password/{token}:
+    get:
+      tags:
+        - Authentication
+      summary: Verify the link clicked by the user via email (From frontend)
+      parameters:
+        - in: path
+          name: token
+          description: Reset Password Token
+      responses:
+        '200':
+          description: Verified, now you can enter new password
+        '404':
+          description: Admin Not Found
+        '500':
+          description: Internal Server Error
   /fetchTeachers:
     get:
       tags:
@@ -1003,6 +1051,18 @@ components:
           type: number
         price:
           type: number
+    ForgotPasswordInput:
+      type: object
+      properties:
+        email:
+          type: string
+    ResetPasswordInput:
+      type: object
+      properties:
+        password:
+          type: string
+        confirmPassword:
+          type: string
   securitySchemes:
     bearerAuth:
       name: Authorization
@@ -1065,3 +1125,15 @@ components:
           schema:
             $ref: '#/components/schemas/BookInput'
         description: Book Creation
+    ForgotPassword:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForgotPasswordInput'
+        description: Forgot Password
+    ResetPassword:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResetPasswordInput'
+        description: Reset Password

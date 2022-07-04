@@ -11,6 +11,7 @@ This is a School Management System which provides automation of various academic
 - Teachers manage scorecard for students.
 - Rankings for students based on their percentage.
 - Library routes to manage all books along with penaltys for late returns.
+- Forgot/reset password option using email.
 
 ## Tech Stacks
 
@@ -22,7 +23,7 @@ This is a School Management System which provides automation of various academic
 
 ## Documentation
 
-[Documentation](https://sch-management-server.herokuapp.com/docs)
+[Swagger API Docs](https://sch-management-server.herokuapp.com/docs)
 
 
 ## Installation

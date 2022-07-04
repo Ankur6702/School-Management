@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv');
 const { body, validationResult } = require('express-validator');
 
 // Models
@@ -12,6 +13,8 @@ const Student = require('../models/Student');
 // Local functions
 const logger = require('../logger');
 const { fetchAdmin } = require('../middleware/fetchUser');
+
+dotenv.config();
 
 // ===========================================Controllers=====================================================
 
@@ -127,8 +130,8 @@ router.post('/teacher', fetchAdmin, [
         logger.debug('Student details: ' + student);
         return res.status(400).json({ status: 'error', message: 'Student already exists with this email' });
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const salt = bcrypt.genSalt(process.env.SALT_ROUNDS);
+    const hashedPassword = bcrypt.hash(req.body.password, salt);
     try {
         const teacher = await Teacher.create({
             name: req.body.name,
@@ -263,8 +266,8 @@ router.post('/student', fetchAdmin, [
         logger.error('Teacher already exists');
         return res.status(400).json({ status: 'error', message: 'Teacher already exists with this email' });
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const salt = bcrypt.genSalt(process.env.SALT_ROUNDS);
+    const hashedPassword = bcrypt.hash(req.body.password, salt);
     try {
         const student = await Student.create({
             name: req.body.name,
