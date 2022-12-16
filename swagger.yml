@@ -6,10 +6,10 @@ info:
   contact:
     email: ankuragarwa246@gmail.com
 servers:
-  - url: http://localhost:9999/api
-    description: Development server
   - url: https://sch-management-server.herokuapp.com/api
     description: Production Server
+  - url: http://localhost:9999/api
+    description: Development server
 paths:
   /auth/signup:
     post:
@@ -952,6 +952,15 @@ components:
         date:
           type: string
           format: date-time
+    SignupInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
     TeacherSignupInput:
       type: object
       properties:
